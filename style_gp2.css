@@ -1,0 +1,80 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+  }
+  
+  #gameContainer {
+    margin: auto;
+    width: 80%;
+    max-width: 800px;
+  }
+  
+  h1 {
+    margin: 20px 0;
+  }
+  
+  #gameScreen {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background-color: #111;
+    border: 2px solid white;
+    overflow: hidden;
+  }
+  
+  #playerShip {
+    position: absolute;
+    bottom: 10px;
+    left: 45%;
+    width: 80px;
+  }
+  
+  .alienShip {
+    position: absolute;
+    width: 60px;
+  }
+  
+  .laser {
+    position: absolute;
+    width: 10px;
+    height: 20px;
+    background-color: red;
+    transition: all 0.5s linear;
+  }
+  
+  #controls {
+    margin: 20px 0;
+  }
+  
+  button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    background-color: #1e90ff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+  }
+  
+  #gameOutput {
+    margin-top: 20px;
+    height: 150px;
+    border: 1px solid gray;
+    background-color: #222;
+    overflow-y: auto;
+    text-align: left;
+    padding: 10px;
+    font-size: 14px;
+    white-space: pre-wrap;
+  }
+  
