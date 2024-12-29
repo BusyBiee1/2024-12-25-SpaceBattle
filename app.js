@@ -21,8 +21,15 @@ const sounds = {
 
 // display state of game as battles happens
 function logMessage(message) {
-  gameOutput.innerText += message + "\n\n";
-  gameOutput.scrollTop = gameOutput.scrollHeight;
+  if (message === "screen-clear") {
+    gameOutput.innerText = "";
+    gameOutput.scrollTop = gameOutput.scrollHeight;
+    console.log (gameOutput.innerText)
+  }
+  else {
+    gameOutput.innerText += message + "\n\n";
+    gameOutput.scrollTop = gameOutput.scrollHeight;
+  }
 }
 
 
@@ -87,7 +94,11 @@ class SpaceBattle {
 
   // game start point
   startGame() {
-    logMessage("Game started! Destroy all alien ships.");
+    logMessage("screen-clear");
+    //gameOutput.innerText = "";
+    logMessage("Game started! Destroy all alien ships.");    
+    attackBtn.disabled = false;
+    retreatBtn.disabled = false;
     alienShipsContainer.innerHTML = "";
     playerShip.src = "images/player-ship.png";
     let xPos = 50;
@@ -103,6 +114,9 @@ class SpaceBattle {
     const alien = this.aliens[this.currentAlienIndex];
     if (!alien) {
       logMessage("You destroyed all alien ships. You win!");
+      attackBtn.disabled = true;
+      retreatBtn.disabled = true;
+      //logMessage("screen-clear");
       return;
     }
     logMessage(`Fighting Alien Ship: ${alien.name} | It's Hull Strenght: ${alien.hull}`);
