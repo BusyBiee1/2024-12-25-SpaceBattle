@@ -13,7 +13,7 @@ const sounds = {
   alienShoot: new Audio("sounds/Alien_Shoot1.mp3"),
   //usMiss: new Audio("sounds/us_miss.mp3"),
   //alienMiss: new Audio("sounds/alien_miss.mp3"),
-  hullHit: new Audio("sounds/hull_hit.mp3"),
+  hullHit: new Audio("sounds/hullHit.mp3"),
   alienDestroyed: new Audio("sounds/Alien_Destroyed2.mp3"),
   usDestroyed: new Audio("sounds/US_Destroyed.mp3"),
 
@@ -92,11 +92,18 @@ class SpaceBattle {
     }
   }
 
+    // Clear removes ball from the game screen (usually when the fame is over)
+  //clearAlienShips() {
+  //    /* is seems necessary to remove all .ball elements using a loop because since the .ball element is created dynamically there could be a csenarios wehre mulitple .ball elements are created especially after end game and before start game and after ball catch failed and ball throw starts */
+  //    aliens.forEach((alien) => alien.pop());  /* look thru the document element by selecting all elements by name ball and remove them.  */
+  //}  
+  
+
   // game start point
   startGame() {
     logMessage("screen-clear");
     //gameOutput.innerText = "";
-    logMessage("Game started! Destroy all alien ships.");    
+    logMessage("Game started! Destroy all alien ships....");    
     attackBtn.disabled = false;
     retreatBtn.disabled = false;
     alienShipsContainer.innerHTML = "";
@@ -113,10 +120,13 @@ class SpaceBattle {
   nextTurn() {
     const alien = this.aliens[this.currentAlienIndex];
     if (!alien) {
-      logMessage("You destroyed all alien ships. You win!");
-      attackBtn.disabled = true;
-      retreatBtn.disabled = true;
+        console.log("no aliens");
+        logMessage("You destroyed all alien ships. You win!");
+      //attackBtn.disabled = true;
+      //retreatBtn.disabled = true;
       //logMessage("screen-clear");
+      //this.aliens.forEach((alien) => alien.pop()); 
+      //clearAlienShips();
       return;
     }
     logMessage(`Fighting Alien Ship: ${alien.name} | It's Hull Strenght: ${alien.hull}`);
