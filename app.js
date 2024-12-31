@@ -66,6 +66,7 @@ class Spaceship {
     }
     else {
       sounds.hullHit.play();
+      
     }
   }
 }
