@@ -66,7 +66,7 @@ class Spaceship {
     }
     else {
       sounds.hullHit.play();
-      
+
     }
   }
 }
@@ -122,7 +122,7 @@ class SpaceBattle {
     const alien = this.aliens[this.currentAlienIndex];
     if (!alien) {
         console.log("no aliens");
-        logMessage("You destroyed all alien ships. You win!");
+        logMessage("You destroyed all alien ships. You WIN!");
       //attackBtn.disabled = true;
       //retreatBtn.disabled = true;
       //logMessage("screen-clear");
