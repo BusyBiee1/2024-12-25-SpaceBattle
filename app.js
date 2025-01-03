@@ -66,7 +66,6 @@ class Spaceship {
     }
     else {
       sounds.hullHit.play();
-
     }
   }
 }
@@ -110,9 +109,11 @@ class SpaceBattle {
     alienShipsContainer.innerHTML = "";
     playerShip.src = "images/player-ship.png";
     let xPos = 50;
+    this.currentAlienIndex = 0;
     this.aliens.forEach((alien) => {
+      //console.log(this.currentAlienIndex);
       alien.render(xPos, 50);
-      xPos += 120;
+      xPos += 100;
     });
     this.nextTurn();
   }
@@ -120,11 +121,12 @@ class SpaceBattle {
   // moving from one alien ship to another after its destruction
   nextTurn() {
     const alien = this.aliens[this.currentAlienIndex];
+    //console.log(this.currentAlienIndex);
     if (!alien) {
-        console.log("no aliens");
+        //console.log("no aliens");
         logMessage("You destroyed all alien ships. You WIN!");
-      //attackBtn.disabled = true;
-      //retreatBtn.disabled = true;
+      attackBtn.disabled = true;
+      retreatBtn.disabled = true;
       //logMessage("screen-clear");
       //this.aliens.forEach((alien) => alien.pop()); 
       //clearAlienShips();
