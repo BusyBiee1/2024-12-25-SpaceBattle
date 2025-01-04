@@ -7,6 +7,7 @@ const attackBtn = document.getElementById("attackBtn");
 const retreatBtn = document.getElementById("retreatBtn");
 const gameOutput = document.getElementById("gameOutput");
 
+
 // Sound files
 const sounds = {
   usShoot: new Audio("sounds/US_Shoot2.mp3"),
@@ -63,6 +64,7 @@ class Spaceship {
       //this.imageSrc = "images/explosion.png";
       this.element.src = "images/explosion.png";
       setTimeout(() => this.element.remove(), 500);
+      //this.alien = null; //-//
     }
     else {
       sounds.hullHit.play();
@@ -101,6 +103,18 @@ class SpaceBattle {
 
   // game start point
   startGame() {
+  
+    //const game = new SpaceBattle();   //-//
+    //player.initialize
+    //this.aliens.intialize
+    game.player.hull = 20; //-//
+   // game.aliens = null; //-//
+    this.aliens.forEach((alien) => { //-//
+        //console.log(this.currentAlienIndex);
+        alien = null; //-//
+     }); //-//
+    game.createAliens(6); //-//
+
     logMessage("screen-clear");
     //gameOutput.innerText = "";
     logMessage("Game started! Destroy all alien ships....");    
@@ -109,7 +123,7 @@ class SpaceBattle {
     alienShipsContainer.innerHTML = "";
     playerShip.src = "images/player-ship.png";
     let xPos = 50;
-    this.currentAlienIndex = 0;
+    this.currentAlienIndex = 0; //-//
     this.aliens.forEach((alien) => {
       //console.log(this.currentAlienIndex);
       alien.render(xPos, 50);
@@ -121,6 +135,7 @@ class SpaceBattle {
   // moving from one alien ship to another after its destruction
   nextTurn() {
     const alien = this.aliens[this.currentAlienIndex];
+    alien.hull = Math.floor(Math.random() * 4) + 3; //-//
     //console.log(this.currentAlienIndex);
     if (!alien) {
         //console.log("no aliens");
@@ -132,6 +147,7 @@ class SpaceBattle {
       //clearAlienShips();
       return;
     }
+    console.log(this.currentAlienIndex);
     logMessage(`Fighting Alien Ship: ${alien.name} | It's Hull Strenght: ${alien.hull}`);
     attackBtn.disabled = false;
     retreatBtn.disabled = false;
@@ -185,6 +201,7 @@ class SpaceBattle {
         //this.remove
         attackBtn.disabled = true;
         retreatBtn.disabled = true;
+        //game = null;    //-//
       }
     } 
     else 
@@ -202,7 +219,8 @@ class SpaceBattle {
   }
 }
 
-const game = new SpaceBattle();
+const game = new SpaceBattle();   //-//
+//let game ;
 
 // Event handles for click event of buttons
 startGameBtn.addEventListener("click", () => game.startGame());

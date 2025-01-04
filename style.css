@@ -10,7 +10,7 @@ body {
   #gameContainer {
     margin: auto;
     width: 80%;
-    max-width: 800px;
+    max-width: 750px;
   }
   
   h1 {
@@ -35,7 +35,7 @@ body {
   
   .alienShip {
     position: absolute;
-    width: 100px;
+    width: 90px;
   }
   
   .laser {
