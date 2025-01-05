@@ -88,20 +88,12 @@ class SpaceBattle {
       const hull = Math.floor(Math.random() * 4) + 3;
       const firepower = Math.floor(Math.random() * 3) + 2;
       const accuracy = (Math.random() * 0.2 + 0.6).toFixed(2);
-      const alien = new Spaceship(`Alien Ship ${i + 1}`, hull, firepower, accuracy, "images/alien-ship.png");
+      const alien = new Spaceship(`Alien Ship: ${i + 1}`, hull, firepower, accuracy, "images/alien-ship.png");
       //const alien = new Spaceship(`Alien Ship ${i + 1}`, hull, firepower, accuracy, "images/alien-ship.png"); 
       this.aliens.push(alien);
     }
   }
 
-    // Clear removes ball from the game screen (usually when the fame is over)
-  //clearAlienShips() {
-  //    /* is seems necessary to remove all .ball elements using a loop because since the .ball element is created dynamically there could be a csenarios wehre mulitple .ball elements are created especially after end game and before start game and after ball catch failed and ball throw starts */
-  //    aliens.forEach((alien) => alien.pop());  /* look thru the document element by selecting all elements by name ball and remove them.  */
-  //}  
-  
-
-  // game start point
   startGame() {
   
     //const game = new SpaceBattle();   //-//
@@ -110,14 +102,15 @@ class SpaceBattle {
     game.player.hull = 20; //-//
    // game.aliens = null; //-//
     this.aliens.forEach((alien) => { //-//
-        //console.log(this.currentAlienIndex);
+        //console.log(this.currentAlienIndex); //-//
         alien = null; //-//
      }); //-//
-    game.createAliens(6); //-//
+    //game.createAliens(6); //-//
 
     logMessage("screen-clear");
     //gameOutput.innerText = "";
-    logMessage("Game started! Destroy all alien ships....");    
+    logMessage("GAME STARTED!  Destroy all alien ships....");    
+   // logMessage(`Your Hull strenght is: ${this.player.hull}`);    
     attackBtn.disabled = false;
     retreatBtn.disabled = false;
     alienShipsContainer.innerHTML = "";
@@ -135,11 +128,11 @@ class SpaceBattle {
   // moving from one alien ship to another after its destruction
   nextTurn() {
     const alien = this.aliens[this.currentAlienIndex];
-    alien.hull = Math.floor(Math.random() * 4) + 3; //-//
     //console.log(this.currentAlienIndex);
     if (!alien) {
         //console.log("no aliens");
-        logMessage("You destroyed all alien ships. You WIN!");
+        logMessage("You destroyed all alien ships!");
+        logMessage("--- YOU WIN! --- ");
       attackBtn.disabled = true;
       retreatBtn.disabled = true;
       //logMessage("screen-clear");
@@ -147,8 +140,11 @@ class SpaceBattle {
       //clearAlienShips();
       return;
     }
-    console.log(this.currentAlienIndex);
-    logMessage(`Fighting Alien Ship: ${alien.name} | It's Hull Strenght: ${alien.hull}`);
+    //console.log(this.currentAlienIndex);
+    alien.hull = Math.floor(Math.random() * 4) + 3; //-//
+    logMessage(`Fighting ${alien.name}`); 
+    //logMessage(`Alien Ship name: ${alien.name}`); 
+    logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${this.player.hull}`);
     attackBtn.disabled = false;
     retreatBtn.disabled = false;
   }
@@ -163,11 +159,14 @@ class SpaceBattle {
       //alienHullPastValue = alien.hull;
       //alientAfterHitValue=iif((alien.hull - this.player.firepower)>0) ? (alien.hull - this.player.firepower) : (0);
       logMessage(`You hit ${alien.name} for -> ${this.player.firepower} damage.`);
+      logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${this.player.hull}`);
       //logMessage(`You hit Alien Ship: ${alien.name} for ${this.player.firepower} point Hull damage. Hull strength left: ${iif((alien.hull - this.player.firepower)>0) ? (alien.hull - this.player.firepower) : (0)}`);
       alien.takeDamage(this.player.firepower);
       if (alien.hull <= 0) {
         //logMessage(`Alien Ship: ${alien.name} is destroyed! It had a Hull strength left of ${alienHullPastValue}`);
-        logMessage(`${alien.name} destroyed!`);
+        logMessage(`${alien.name} destroyed! ... with your firepower of: ${this.player.firepower}`);
+        //        logMessage(`... with your firepower of: ${this.player.firepower} against alien hull strenght of: ${alien.hull}`);
+        //logMessage(`... with your firepower of: ${this.player.firepower}`);
         this.currentAlienIndex++;
         this.nextTurn();
       } 
@@ -177,7 +176,9 @@ class SpaceBattle {
       }
     } 
     else {
-      logMessage(`You missed hitting the Alien Ship: ${alien.name}!"`);
+      //logMessage(`You missed hitting the Alien Ship: ${alien.name}! | It's Hull Strenght: ${alien.hull}`);
+      logMessage(`You missed hitting the ${alien.name}!`);
+      logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${this.player.hull}`);
       //sounds.usMiss.play(); // Play miss sound
       this.alienAttack();
     }
@@ -190,11 +191,15 @@ class SpaceBattle {
 
     if (Math.random() < alien.accuracy) {
       this.player.hull -= alien.firepower;
-      logMessage(`${alien.name} hit you for -> ${alien.firepower} damage! Your Hull strenght is: ${this.player.hull}`);
-
+      //logMessage(`${alien.name} hit you for -> ${alien.firepower} damage! Your Hull strenght is: ${this.player.hull}`);
+      logMessage(`${alien.name} hit you for -> ${alien.firepower} damage!`);
+      logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${this.player.hull}`);
       if (this.player.hull <= 0) {
-        logMessage("You were destroyed! Game Over.");
-        sounds.usDestroyed.play(); // Play player destroyed sound
+        logMessage(`You were destroyed! ... with Alien firepower of: ${alien.hull}`);
+        logMessage("---GAME OVER!---");    
+//        logMessage(`... with Alien firepower of: ${alien.hull} against your hull strenght of: ${this.player.hull}`);
+        //logMessage(`... with Alien firepower of: ${alien.hull}`);
+          sounds.usDestroyed.play(); // Play player destroyed sound
         //this.imageSrc = "images/explosion.png";
         //this.element.src = "images/explosion.png";
         playerShip.src = "images/explosion.png";
@@ -206,7 +211,8 @@ class SpaceBattle {
     } 
     else 
     {
-      logMessage(`Alien Ship: ${alien.name} missed hitting you!`);
+      logMessage(`${alien.name} missed hitting you!`);
+      logMessage(`Alien Hull Strengh: ${alien.hull} | Yours: ${this.player.hull}`);
       //sounds.alienMiss.play(); // Play alien miss sound
     }
   }
