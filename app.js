@@ -118,7 +118,8 @@ class SpaceBattle {
 
     logMessage("screen-clear");
     //gameOutput.innerText = "";
-    logMessage("GAME STARTED!  Destroy all alien ships....");    
+    logMessage("--- GAME STARTED! ---");
+    logMessage("Destroy all alien ships....");    
    // logMessage(`Your Hull strenght is: ${this.player.hull}`);    
     attackBtn.disabled = false;
     retreatBtn.disabled = false;
@@ -153,10 +154,9 @@ class SpaceBattle {
     //alien.hull = Math.floor(Math.random() * 4) + 3; //-//
     //firepower 
     //--------/alien.hull = Math.floor(Math.random() * 4) + 3; //-//
-    logMessage(`Fighting ${alien.name}`); 
+    logMessage(`Fighting ${alien.name} | Hull: ${alien.hull}, firepower: ${alien.firepower}, accuracy: ${alien.accuracy}`); 
     //logMessage(`Alien Ship name: ${alien.name}`); 
-    
-    logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${playerHullCount}`);
+    logMessage(`Your USS Assembly:  | Hull: ${playerHullCount}, firepower: ${this.player.firepower}, accuracy: ${this.player.accuracy}`); 
 //--//    logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${this.player.hull}`);
     attackBtn.disabled = false;
     retreatBtn.disabled = false;
@@ -180,6 +180,7 @@ class SpaceBattle {
       if (alien.hull <= 0) {
         //logMessage(`Alien Ship: ${alien.name} is destroyed! It had a Hull strength left of ${alienHullPastValue}`);
         logMessage(`${alien.name} destroyed! ... with your firepower of: ${this.player.firepower}`);
+        logMessage("----------------------------------------------------------");
         //        logMessage(`... with your firepower of: ${this.player.firepower} against alien hull strenght of: ${alien.hull}`);
         //logMessage(`... with your firepower of: ${this.player.firepower}`);
         this.currentAlienIndex++;
@@ -222,8 +223,8 @@ class SpaceBattle {
         //this.element.src = "images/explosion.png";
         playerShip.src = "images/explosion.png";
         //this.remove
-        attackBtn.disabled = true;
-        retreatBtn.disabled = true;
+        //attackBtn.disabled = true;
+        //retreatBtn.disabled = true;
         //game = null;    //-//
       }
       else {
