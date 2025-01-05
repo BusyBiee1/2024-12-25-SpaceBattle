@@ -20,6 +20,8 @@ const sounds = {
 
 };
 
+let playerHullCount;
+
 // display state of game as battles happens
 function logMessage(message) {
   if (message === "screen-clear") {
@@ -67,7 +69,7 @@ class Spaceship {
       //this.alien = null; //-//
     }
     else {
-      sounds.hullHit.play();
+      sounds.hullHit.play(); 
     }
   }
 }
@@ -77,9 +79,9 @@ class SpaceBattle {
   constructor() {
  //   this.player = new Spaceship("USS Assembly", 20, 5, 0.7, "images/player-ship.png");
     this.player = new Spaceship("USS Assembly", 20, 5, 0.7, "images/player-ship.png");
-    this.aliens = [];
-    this.currentAlienIndex = 0;
-    this.createAliens(6);
+    //this.aliens = [];
+    //this.currentAlienIndex = 0;
+    //this.createAliens(6);
   }
 
   // creating diffent alien ships
@@ -99,13 +101,20 @@ class SpaceBattle {
     //const game = new SpaceBattle();   //-//
     //player.initialize
     //this.aliens.intialize
-    game.player.hull = 20; //-//
+    playerHullCount = game.player.hull;
+    //-//game.player.hull = 20; //-//
    // game.aliens = null; //-//
-    this.aliens.forEach((alien) => { //-//
-        //console.log(this.currentAlienIndex); //-//
-        alien = null; //-//
-     }); //-//
-    //game.createAliens(6); //-//
+    //this.aliens.forEach((alien) => { //-//
+   //     console.log(`nulling alien: ${this.currentAlienIndex}`); //-//
+        this.aliens = [];
+//        alien = null; //-//
+     //}); //-//
+    //console.log(`after nulling aliens: ${this.currentAlienIndex}`); //-//
+    //if (!alien) {
+//       this.currentAlienIndex = 0;
+       game.createAliens(6); //-//
+       this.currentAlienIndex = 0;
+    //}
 
     logMessage("screen-clear");
     //gameOutput.innerText = "";
@@ -141,10 +150,14 @@ class SpaceBattle {
       return;
     }
     //console.log(this.currentAlienIndex);
-    alien.hull = Math.floor(Math.random() * 4) + 3; //-//
+    //alien.hull = Math.floor(Math.random() * 4) + 3; //-//
+    //firepower 
+    //--------/alien.hull = Math.floor(Math.random() * 4) + 3; //-//
     logMessage(`Fighting ${alien.name}`); 
     //logMessage(`Alien Ship name: ${alien.name}`); 
-    logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${this.player.hull}`);
+    
+    logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${playerHullCount}`);
+//--//    logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${this.player.hull}`);
     attackBtn.disabled = false;
     retreatBtn.disabled = false;
   }
@@ -159,7 +172,9 @@ class SpaceBattle {
       //alienHullPastValue = alien.hull;
       //alientAfterHitValue=iif((alien.hull - this.player.firepower)>0) ? (alien.hull - this.player.firepower) : (0);
       logMessage(`You hit ${alien.name} for -> ${this.player.firepower} damage.`);
-      logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${this.player.hull}`);
+      
+      logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${playerHullCount}`);
+//--//      logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${this.player.hull}`);
       //logMessage(`You hit Alien Ship: ${alien.name} for ${this.player.firepower} point Hull damage. Hull strength left: ${iif((alien.hull - this.player.firepower)>0) ? (alien.hull - this.player.firepower) : (0)}`);
       alien.takeDamage(this.player.firepower);
       if (alien.hull <= 0) {
@@ -178,7 +193,9 @@ class SpaceBattle {
     else {
       //logMessage(`You missed hitting the Alien Ship: ${alien.name}! | It's Hull Strenght: ${alien.hull}`);
       logMessage(`You missed hitting the ${alien.name}!`);
-      logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${this.player.hull}`);
+      
+      logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${playerHullCount}`);
+//--//      logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${this.player.hull}`);
       //sounds.usMiss.play(); // Play miss sound
       this.alienAttack();
     }
@@ -190,11 +207,12 @@ class SpaceBattle {
     sounds.alienShoot.play(); // Play alien shooting sound
 
     if (Math.random() < alien.accuracy) {
-      this.player.hull -= alien.firepower;
+      playerHullCount -= alien.firepower;
+      //-// this.player.hull -= alien.firepower;
       //logMessage(`${alien.name} hit you for -> ${alien.firepower} damage! Your Hull strenght is: ${this.player.hull}`);
       logMessage(`${alien.name} hit you for -> ${alien.firepower} damage!`);
-      logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${this.player.hull}`);
-      if (this.player.hull <= 0) {
+      if (playerHullCount <= 0) {
+      //--//if (this.player.hull <= 0) {
         logMessage(`You were destroyed! ... with Alien firepower of: ${alien.hull}`);
         logMessage("---GAME OVER!---");    
 //        logMessage(`... with Alien firepower of: ${alien.hull} against your hull strenght of: ${this.player.hull}`);
@@ -208,11 +226,18 @@ class SpaceBattle {
         retreatBtn.disabled = true;
         //game = null;    //-//
       }
+      else {
+        
+        logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${playerHullCount}`);
+//--//        logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${this.player.hull}`);
+      }
     } 
     else 
     {
       logMessage(`${alien.name} missed hitting you!`);
-      logMessage(`Alien Hull Strengh: ${alien.hull} | Yours: ${this.player.hull}`);
+      
+      logMessage(`Alien Hull Strengh: ${alien.hull} | Yours: ${playerHullCount}`);
+//--//      logMessage(`Alien Hull Strengh: ${alien.hull} | Yours: ${this.player.hull}`);
       //sounds.alienMiss.play(); // Play alien miss sound
     }
   }
