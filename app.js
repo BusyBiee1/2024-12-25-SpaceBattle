@@ -17,9 +17,9 @@ const sounds = {
   hullHit: new Audio("sounds/hullHit.mp3"),
   alienDestroyed: new Audio("sounds/Alien_Destroyed2.mp3"),
   usDestroyed: new Audio("sounds/US_Destroyed.mp3"),
-
 };
 
+// Global variable to keep track of PlayerShipHull hit count for every game
 let playerHullCount;
 
 // display state of game as battles happens
@@ -36,7 +36,7 @@ function logMessage(message) {
 }
 
 
-// The US spaceship Class
+// Class: The US spaceship Class
 class Spaceship {
   constructor(name, hull, firepower, accuracy, imageSrc) {
     this.name = name;
@@ -74,14 +74,11 @@ class Spaceship {
   }
 }
 
-// Game Class
+// Game Class wher aliens are created and game is played
 class SpaceBattle {
   constructor() {
  //   this.player = new Spaceship("USS Assembly", 20, 5, 0.7, "images/player-ship.png");
     this.player = new Spaceship("USS Assembly", 20, 5, 0.7, "images/player-ship.png");
-    //this.aliens = [];
-    //this.currentAlienIndex = 0;
-    //this.createAliens(6);
   }
 
   // creating diffent alien ships
@@ -91,44 +88,28 @@ class SpaceBattle {
       const firepower = Math.floor(Math.random() * 3) + 2;
       const accuracy = (Math.random() * 0.2 + 0.6).toFixed(2);
       const alien = new Spaceship(`Alien Ship: ${i + 1}`, hull, firepower, accuracy, "images/alien-ship.png");
-      //const alien = new Spaceship(`Alien Ship ${i + 1}`, hull, firepower, accuracy, "images/alien-ship.png"); 
       this.aliens.push(alien);
     }
   }
 
   startGame() {
-  
-    //const game = new SpaceBattle();   //-//
-    //player.initialize
-    //this.aliens.intialize
+    //initialize game
     playerHullCount = game.player.hull;
-    //-//game.player.hull = 20; //-//
-   // game.aliens = null; //-//
-    //this.aliens.forEach((alien) => { //-//
-   //     console.log(`nulling alien: ${this.currentAlienIndex}`); //-//
-        this.aliens = [];
-//        alien = null; //-//
-     //}); //-//
-    //console.log(`after nulling aliens: ${this.currentAlienIndex}`); //-//
-    //if (!alien) {
-//       this.currentAlienIndex = 0;
-       game.createAliens(6); //-//
-       this.currentAlienIndex = 0;
-    //}
-
+    this.aliens = [];
+    game.createAliens(6); //-//
+    this.currentAlienIndex = 0;
     logMessage("screen-clear");
-    //gameOutput.innerText = "";
     logMessage("--- GAME STARTED! ---");
     logMessage("Destroy all alien ships....");    
-   // logMessage(`Your Hull strenght is: ${this.player.hull}`);    
     attackBtn.disabled = false;
     retreatBtn.disabled = false;
+
+    //create and put alien ships
     alienShipsContainer.innerHTML = "";
     playerShip.src = "images/player-ship.png";
     let xPos = 50;
     this.currentAlienIndex = 0; //-//
     this.aliens.forEach((alien) => {
-      //console.log(this.currentAlienIndex);
       alien.render(xPos, 50);
       xPos += 100;
     });
@@ -138,17 +119,12 @@ class SpaceBattle {
   // moving from one alien ship to another after its destruction
   nextTurn() {
     const alien = this.aliens[this.currentAlienIndex];
-    //console.log(this.currentAlienIndex);
     if (!alien) {
-        //console.log("no aliens");
         logMessage("You destroyed all alien ships!");
         logMessage("--- YOU WIN! --- ");
-      attackBtn.disabled = true;
-      retreatBtn.disabled = true;
-      //logMessage("screen-clear");
-      //this.aliens.forEach((alien) => alien.pop()); 
-      //clearAlienShips();
-      return;
+        attackBtn.disabled = true;
+        retreatBtn.disabled = true;
+        return;
     }
     //console.log(this.currentAlienIndex);
     //alien.hull = Math.floor(Math.random() * 4) + 3; //-//
@@ -158,8 +134,8 @@ class SpaceBattle {
     //logMessage(`Alien Ship name: ${alien.name}`); 
     logMessage(`Your USS Assembly:  | Hull: ${playerHullCount}, firepower: ${this.player.firepower}, accuracy: ${this.player.accuracy}`); 
 //--//    logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${this.player.hull}`);
-    attackBtn.disabled = false;
-    retreatBtn.disabled = false;
+    //attackBtn.disabled = false;
+    //retreatBtn.disabled = false;
   }
  
   // US ship attack event 
@@ -209,37 +185,24 @@ class SpaceBattle {
 
     if (Math.random() < alien.accuracy) {
       playerHullCount -= alien.firepower;
-      //-// this.player.hull -= alien.firepower;
       //logMessage(`${alien.name} hit you for -> ${alien.firepower} damage! Your Hull strenght is: ${this.player.hull}`);
       logMessage(`${alien.name} hit you for -> ${alien.firepower} damage!`);
       if (playerHullCount <= 0) {
-      //--//if (this.player.hull <= 0) {
         logMessage(`You were destroyed! ... with Alien firepower of: ${alien.hull}`);
         logMessage("---GAME OVER!---");    
-//        logMessage(`... with Alien firepower of: ${alien.hull} against your hull strenght of: ${this.player.hull}`);
-        //logMessage(`... with Alien firepower of: ${alien.hull}`);
-          sounds.usDestroyed.play(); // Play player destroyed sound
-        //this.imageSrc = "images/explosion.png";
-        //this.element.src = "images/explosion.png";
+        sounds.usDestroyed.play(); // Play player destroyed sound
         playerShip.src = "images/explosion.png";
-        //this.remove
-        //attackBtn.disabled = true;
-        //retreatBtn.disabled = true;
-        //game = null;    //-//
+        attackBtn.disabled = true;
+        retreatBtn.disabled = true;
       }
       else {
-        
         logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${playerHullCount}`);
-//--//        logMessage(`Alien Hull Strenght: ${alien.hull} | Yours: ${this.player.hull}`);
       }
     } 
     else 
     {
       logMessage(`${alien.name} missed hitting you!`);
-      
       logMessage(`Alien Hull Strengh: ${alien.hull} | Yours: ${playerHullCount}`);
-//--//      logMessage(`Alien Hull Strengh: ${alien.hull} | Yours: ${this.player.hull}`);
-      //sounds.alienMiss.play(); // Play alien miss sound
     }
   }
 
@@ -252,7 +215,6 @@ class SpaceBattle {
 }
 
 const game = new SpaceBattle();   //-//
-//let game ;
 
 // Event handles for click event of buttons
 startGameBtn.addEventListener("click", () => game.startGame());
