@@ -206,7 +206,7 @@ class SpaceBattle {
     }
   }
 
-  // retreat functionality
+  // retreat 
   retreat() {
     logMessage("You chose to retreat. Game Over.");
     attackBtn.disabled = true;
